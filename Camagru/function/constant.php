@@ -14,5 +14,5 @@
 	    define("REGEX_PASS", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[#$*&@])[\w#$*&@]{6,15}$/i");
 
 	if (!define('MAX_IMG_SIZE'))
-	    define('MAX_IMG_SIZE', 2000000);
+	    define('MAX_IMG_SIZE', 5000000);
 ?>
