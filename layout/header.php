@@ -15,26 +15,24 @@
 </head>
 <body>
 		<div id="container">
-		<header class="main-header">
-			<a id="logo" href="<?php echo ROOT ?>/index.php">Camagru</a>
-			<nav class="main-nav">
-				<ul>
-					<?php if (Auth::isLogged()): ?>
-					<li><a onclick="logout()">Logout</a></li>
-					<li><a href="<?php echo ROOT ?>/profil.php">Profile</a></li>
-					<?php endif; ?>
-					<?php if (strstr(LAYOUT, "pages")): ?>
-					<!-- <li><a href="<?php echo ROOT ?>/index.php">Accueil</a></li> -->	
-					<li><a href="<?php echo ROOT ?>/index.php">Creation</a></li>
-					<li><a href="<?php echo ROOT ?>/gallery.php">Gallery</a></li>
-					<?php else: ?>
-					<!-- <li><a href="<?php echo ROOT ?>/pages/index.php">Accueil</a></li> -->
-					<li><a href="<?php echo ROOT ?>/index.php">Creation</a></li>
-					<li><a href="<?php echo ROOT ?>/pages/gallery.php">Gallery</a></li>
-					<?php endif; ?>
-				</ul>
-			</nav>
-		</header>
+			<header class="main-header">
+				<a id="logo" href="<?php echo ROOT ?>/index.php">Camagru</a>
+				<nav class="main-nav">
+					<ul>
+						<?php if (strstr(LAYOUT, "pages")): ?>
+						<li><a href="<?php echo ROOT ?>/index.php">Accueil</a></li>
+						<li><a href="<?php echo ROOT ?>/gallery.php">Gallery</a></li>
+						<?php else: ?>
+						<li><a href="<?php echo ROOT ?>/pages/index.php">Accueil</a></li>
+						<li><a href="<?php echo ROOT ?>/pages/gallery.php">Gallery</a></li>
+						<?php endif; ?>
+						<?php if (Auth::isLogged()): ?>
+						<li><a href="<?php echo ROOT ?>/profil.php">Profile</a></li>
+						<li><a onclick="logout()">Logout</a></li>
+						<?php endif; ?>
+					</ul>
+				</nav>
+			</header>
 
 			<?php 
 				Helper::error();

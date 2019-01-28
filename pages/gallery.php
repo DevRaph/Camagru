@@ -25,7 +25,9 @@
 	));
 	$p = $picture->fetch();
 
-	$nbPages = ceil(count($picture) / $offset) - 1;
+	$count_image = count((array)$p);
+
+	$nbPages = ceil($count_image / $offset) - 1;
 
 	require_once "../layout/header.php";
 ?>

@@ -29,19 +29,43 @@ function start()
 	snapshotButton.disabled = true;
 	snapshotButton.className = 'btn disabled';
 
-	if (!navigator.mediaDevices.getUserMedia) {
-		console.log("getUserMedia() not supported.");
-		return;
+	// https://developer.mozilla.org/es/docs/Web/API/MediaDevices/getUserMedia
+	var promisifiedOldGUM = function(constraints) {
+
+		var getUserMedia = (navigator.getUserMedia ||
+			navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia ||
+			navigator.msGetUserMedia ||
+			navigator.oGetUserMedia);
+
+		if(!getUserMedia) {
+			return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+		}
+
+		return new Promise(function(resolve, reject) {
+			getUserMedia.call(navigator, constraints, resolve, reject);
+		});
 	}
 
-	navigator.mediaDevices.getUserMedia({ audio: false, video: { width: { min: 320 }, height: { min: 240 }  }})
+	if(navigator.mediaDevices === undefined) {
+		console.log("getUserMedia() not supported.");
+		navigator.mediaDevices = {};
+	}
+
+	if(navigator.mediaDevices.getUserMedia === undefined) {
+		navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
+	}
+
+	var constraints = { audio: false, video: { width: { min: 320 }, height: { min: 240 }  }};
+
+	navigator.mediaDevices.getUserMedia(constraints)
 	.then(
 		function (stream) {
 			if (navigator.mozGetUserMedia) {
 				video.mozSrcObject = stream;
 			} else {
 				let vendorURL = window.URL || window.webkitURL;
-				video.src = vendorURL.createObjectURL(stream);
+				video.srcObject = stream;
 			}
 	})
 	.catch(

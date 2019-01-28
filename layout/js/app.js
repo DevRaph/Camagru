@@ -13,7 +13,7 @@ if (message)
 					message.parentNode.removeChild(message);
 				}
 				clearInterval(message.parentNode.removeChild(message) !== null);
-			}, 5000);
+			}, 10000);
 		}
 	}
 }

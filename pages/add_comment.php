@@ -31,8 +31,7 @@
 
 		$user_picture = Helper::getDB()->query(
 			"SELECT p.user_id, u.email, u.login, p.title FROM pictures p
-			LEFT JOIN users u
-			ON u.id = p.user_id
+			JOIN users u ON u.id = p.user_id
 			WHERE p.id=:picture_id
 		", array(
 			"picture_id" => array($picture_id, PDO::PARAM_INT)

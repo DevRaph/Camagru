@@ -7,7 +7,13 @@
 		die();
 	}
 
-	if (empty($_FILES)) {
+//	echo "<pre>";
+//	var_dump($_FILES);
+//	echo "<>"
+//	die();
+
+	if (isset($_FILES['files']['size']) && $_FILES['files']['size'] == 0) {
+        $_SESSION['error']['ext'] = "Veuillez selectionner une image";
 		header("Location: index.php");
 		die();
 	}
@@ -21,21 +27,11 @@
 		}
 		$img = $_FILES['files'];
 		$img['name'] = strtolower($img['name']);
-		if (stripos($img['name'], "jpg")) {
-			$ext = "jpg";
-		} else if (stripos($img['name'], "jpeg")) {
-			$ext = "jpeg";
-		} else if (stripos($img['name'], "png")) {
-			$ext = "png";
-		}
-		$ext_valid = array("jpg", "png", "jpeg");
-
-		$name = explode(".", $img['name']);
 
 		$title = str_replace(" ", "_", $name[0]);
 		$title = $title."_".rand(1, 100);
 
-		if (in_array($ext, $ext_valid)) {
+        if (preg_match('/(.+\.jpeg|.+\.jpg|.+\.png)$/i', $img['name']) && $_FILES['files']['size'] <= MAX_IMG_SIZE) {
 			move_uploaded_file($img['tmp_name'], $user_folder.$title.".png");
 			Helper::getDB()->query("INSERT INTO pictures SET user_id=:user_id, title=:title, description=:description, created=:created, file=:file, like_count=0;", array(
 				'user_id' => array($_SESSION['Auth']['id'], PDO::PARAM_INT),
@@ -44,7 +40,7 @@
 				'file' => array("/img/".$_SESSION['Auth']['login']."/".$title.".png", PDO::PARAM_STR),
 				'created' => array(date("Y-m-d H:i:s"), PDO::PARAM_STR)
 			));
-			$_SESSION['success'] = "Votre image a bien ete enregistre";
+			$_SESSION['success'] = "Votre image a bien ete enregistrée";
 			header("Location: index.php");
 			die();
 		} else { 

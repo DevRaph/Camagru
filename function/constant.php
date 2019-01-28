@@ -9,4 +9,10 @@
 		define("LAYOUT", ROOT."/layout");
 	if (!defined("LAYOUT_PAGES"))
 		define("LAYOUT_PAGES", dirname(ROOT)."/layout");
+
+	if (!defined('REGEX_PASS'))
+	    define("REGEX_PASS", "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[#$*&@])[\w#$*&@]{6,15}$/i");
+
+	if (!define('MAX_IMG_SIZE'))
+	    define('MAX_IMG_SIZE', 5000000);
 ?>

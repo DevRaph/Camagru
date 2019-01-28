@@ -66,9 +66,9 @@
 			</aside>
 		</div>
 		<div class="clr"></div>
-	<footer>
-		<p>Copyright &copy; 2017 PHRM</p>
-	</footer>
+		<footer>
+			<p>Copyright &copy; 2017 PHRM</p>
+		</footer>
 	</div>
 	<?php if (strstr($_SERVER['SCRIPT_FILENAME'], "pages")): ?>
 		<script type="text/javascript" src="<?php echo dirname(ROOT)."/layout/js/ajax.js"; ?>"></script>

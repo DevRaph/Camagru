@@ -28,7 +28,7 @@
 			<br clear="both"> 
 		</div> 
 		<div id="filter_video" class="filter_video"> 
-			<div class="label">Choix d'image a fusionner</div> <div id="background" class="background"> 
+			<div class="label">Background </div> <div id="background" class="background"> 
 				<img id="cat_snap" src="<?php echo LAYOUT_PAGES."/img/cat_snap.png"; ?>" title="Cat Snap"> 
 				<img id="cigarret" src="<?php echo LAYOUT_PAGES."/img/cigarret.png"; ?>" title="Cigarret">
 				<img id="frontcap" src="<?php echo LAYOUT_PAGES."/img/frontcap.png"; ?>" title="Front Cap">

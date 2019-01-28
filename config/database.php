@@ -11,6 +11,7 @@
 			email VARCHAR(255) NOT NULL,
 			is_connected TINYINT(1) UNSIGNED NOT NULL,
 			token VARCHAR(255) NULL,
+			notif TINYINT(1) DEFAULT 1,
 			created DATETIME
 		)',
 		'pictures (
@@ -35,7 +36,7 @@
 			user_id INT UNSIGNED NOT NULL,
 			ref_id INT UNSIGNED NOT NULL,
 			ref VARCHAR(60) NOT NULL,
-			vote INT UNSIGNED NOT NULL,
+			vote TINYINT(1) UNSIGNED NOT NULL,
 			created DATETIME
 		)'
 	);

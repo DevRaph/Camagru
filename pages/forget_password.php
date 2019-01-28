@@ -16,7 +16,7 @@
 		))->fetch();
 		if ($search_email)
 		{
-			$token = md5(sha1($search_email->email) + md5($search_email->email) + time());
+			$token = md5(sha1($search_email->email).md5($search_email->email) + time());
 			Helper::getDB()->query("UPDATE users SET token=:token WHERE id=:id;", array(
 				"id" => array($search_email->id, PDO::PARAM_INT),
 				"token" =>  array($token, PDO::PARAM_STR)

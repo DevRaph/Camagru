@@ -26,6 +26,13 @@
 		$pass = (isset($_POST['pass']) ? htmlentities($_POST['pass']) : NULL);
 		$pass2 = (isset($_POST['pass2']) ? htmlentities($_POST['pass2']) : NULL);
 
+		if (!preg_match(REGEX_PASS, $pass, $matches))
+        {
+            $_SESSION['error']['pass_error'] = "Votre mots de passe doit contenir au moins une lettre minuscule, une lettre masjuscule, un chiffre, un caractere speciale (# $ * & @) et doit faire entre 6 et 15 caracteres !";
+            header("Location: change_password.php");
+            die();
+        }
+
 		if (Auth::isLogged()) {
 			$user = Helper::getDB()->query("SELECT id, token FROM users WHERE id=:id", array(
 				"id" => array($_POST['id'], PDO::PARAM_INT)
@@ -43,7 +50,7 @@
 
 		if (count($user) > 0) {
 			if ($pass === $pass2) {
-				$password =  md5(sha1($pass) + md5($pass));
+				$password =  md5(sha1($pass) . md5($pass));
 				if (isset($user->token) AND $user->token != NULL) {
 					$user = Helper::getDB()->query("UPDATE users SET password=:password, token=NULL WHERE id=:id AND token=:token", array(
 						"id" => array($user->id, PDO::PARAM_INT),

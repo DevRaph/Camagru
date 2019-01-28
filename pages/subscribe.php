@@ -37,14 +37,19 @@
 				$_SESSION['error']['email_exist'] = "Cet email est deja utilise";
 		}
 
-		if (empty($_POST['pass']) || strcmp($_POST['pass'], "bonjour") == 0 || ($_POST['pass'] !== $_POST['pass2'])) {
-			$_SESSION['error']['pass'] = "Mot de passe invalide !";
+		if (!preg_match("/^[\w]{6,20}$/i", $_POST['login'], $matches))
+        {
+            $_SESSION['error']['login'] = "Votre identifiant doit contenir entre 6 et 20 caracteres !";
+        }
+
+		if (empty($_POST['pass']) || !preg_match(REGEX_PASS, $_POST['pass'], $matches) || ($_POST['pass'] !== $_POST['pass2'])) {
+            $_SESSION['error']['pass'] = "Votre mot de passe doit contenir au moins une lettre minuscule, une lettre masjuscule, un chiffre, un caractere speciale (# $ * & @) et doit faire entre 6 et 15 caracteres !";
 		}
 
 		if (empty($_SESSION['error']))
 		{
-			$password = md5(sha1($_POST['pass']) + md5($_POST['pass']));
-			$token = md5(sha1($_POST['pass']) + md5($_POST['pass']) + time());
+			$password = md5(sha1($_POST['pass']).md5($_POST['pass']));
+			$token = md5(sha1($_POST['pass']).md5($_POST['pass']) + time());
 			Helper::getDB()->query("INSERT INTO users SET login=:login, password=:password, email=:email, token=:token, is_connected=:is_connected, created=:created", array(
 				'login'        => array($_POST['login'], PDO::PARAM_STR),
 				'email'        => array($_POST['email'], PDO::PARAM_STR),
