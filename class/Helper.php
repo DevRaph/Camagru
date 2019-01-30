@@ -8,7 +8,7 @@
 		{
 			if (!self::$db)
 			{
-				self::$db = new Bdd("mysql:host=localhost;charset=UTF8;", 'camagru', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ));
+				self::$db = new Bdd("mysql:host=localhost;charset=UTF8;", 'camagru', DB_USER, DB_PASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ));
 			}
 			return self::$db;
 		}

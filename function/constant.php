@@ -15,4 +15,9 @@
 
 	if (!define('MAX_IMG_SIZE'))
 	    define('MAX_IMG_SIZE', 5000000);
+
+	if (!define('DB_PASS'))
+	    define('DB_PASS', 'rootroot');
+	if (!define('DB_USER'))
+	    define('DB_USER', 'root');
 ?>

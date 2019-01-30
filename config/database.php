@@ -1,8 +1,8 @@
 <?php
 	$DB_DSN = "mysql:host=localhost;charset=UTF8;";
 	$DB_NAME = 'camagru';
-	$DB_USER = "root";
-	$DB_PASSWORD = "root";
+	$DB_USER = DB_USER;
+	$DB_PASSWORD = DB_PASS;
 	$DB_TABLE = array(
 		'users (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
