@@ -1,10 +1,10 @@
 <?php
 	$DB_DSN = "mysql:host=localhost;charset=UTF8;";
 	$DB_NAME = 'camagru';
-	$DB_USER = DB_USER;
-	$DB_PASSWORD = DB_PASS;
+	$DB_USER = "root";
+	$DB_PASSWORD = "rootroot";
 	$DB_TABLE = array(
-		'users (
+		'users'=> 'users (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 			login VARCHAR(255) NOT NULL,
 			password VARCHAR(255) NOT NULL,
@@ -14,7 +14,7 @@
 			notif TINYINT(1) DEFAULT 1,
 			created DATETIME
 		)',
-		'pictures (
+		'pictures' => 'pictures (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_id INT UNSIGNED NOT NULL,
 			title VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@
 			like_count INT UNSIGNED NOT NULL,
 			created DATETIME
 		)',
-		'comments (
+		'comments' => 'comments (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_id INT UNSIGNED NOT NULL,
 			picture_id INT UNSIGNED NOT NULL,
@@ -31,7 +31,7 @@
 			like_count INT UNSIGNED NOT NULL,
 			created DATETIME
 		)',
-		'likes (
+		'likes' => 'likes (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_id INT UNSIGNED NOT NULL,
 			ref_id INT UNSIGNED NOT NULL,

@@ -16,6 +16,10 @@
 		die();
 	}
 
+
+
+
+
 	if (!empty($_POST) && !empty($_POST['picture_id']) && !empty($_POST['comment'])) {
 		header("Content-Type: text/plain");
 
@@ -30,7 +34,7 @@
 		));
 
 		$user_picture = Helper::getDB()->query(
-			"SELECT p.user_id, u.email, u.login, p.title FROM pictures p
+			"SELECT p.user_id, u.email, u.login, p.title, u.notif FROM pictures p
 			JOIN users u ON u.id = p.user_id
 			WHERE p.id=:picture_id
 		", array(
@@ -57,11 +61,14 @@
 			</body>
 		</html>";
 
-		mail($user_picture->email, "Camagru - Commentaire - ".$user_picture->title, $message,
-			"From: contact@camagru.com \n".
-			"Reply-To:" .$user_picture->email." \n".
-			"Content-Type: text/html"
-		);
+		if ($user_picture->notif)
+        {
+            mail($user_picture->email, "Camagru - Commentaire - ".$user_picture->title, $message,
+                "From: contact@camagru.com \n".
+                "Reply-To:" .$user_picture->email." \n".
+                "Content-Type: text/html"
+            );
+        }
 		$_SESSION['success'] = "Votre commentaire a bien ete enregistre !";
 	} else {
 		$_SESSION['error']['login_email'] = "Le commentaire n'a pas pu etre envoye correctement !";

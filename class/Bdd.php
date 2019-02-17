@@ -32,7 +32,8 @@
 		public function create_table($table = array())
 		{			
 			echo "<span style='color:#FFA500; font-weight:semi-bold'>Creation table ...</span><br>";
-			foreach ($table as $t) {
+			foreach ($table as $table_name => $t) {
+				Bdd::query("DROP TABLE IF EXISTS ".$table_name.";", null);
 				Bdd::query("CREATE TABLE IF NOT EXISTS ".$t.";", null);
 			}
 			echo "<span style='color:#00CD00; font-weight:bold'>Table created</span><br>";
@@ -43,7 +44,8 @@
 			$res = $this->pdo->prepare($sql);
 			if ($data != null) {
 				foreach ($data as $k => $v) {
-					$res->bindParam(":".$k, $v[0], $v[1]);
+//					$res->bindParam(":".$k, $v[0], $v[1]);
+					$res->bindParam(":".$k, $v[0], (!empty($v[1])) ? $v[1] : 0); // warning ?
 				}
 				$res->execute();
 			}

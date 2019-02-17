@@ -117,6 +117,30 @@ function delete_comment(comment_id, picture_id) {
 	}
 }
 
+/* Profile Page Checked Notification */
+// var like = document.getElementById("check_notif");
+// like.addEventListener('click', function(e) {
+// 		check_notif(e);
+// });
+//
+// function check_notif(e) {
+// 	var xhr = getHttpRequest();
+// 	var data = new FormData();
+// 	var user_id = e;
+//
+// 	xhr.onreadystate = function () {
+// 		if (xhr.readyState == 4 && xhr.status == 200)
+// 		{
+//             var d = JSON.parse(xhr.responseText);
+//         }
+// 	}
+//
+//     xhr.open("POST", "check_notif.php", true);
+//     data.append("user_id", user_id);
+//     xhr.overrideMimeType("text/plain");
+//     xhr.send(data);
+// }
+
 
 /* Like And Dislike */
 var like = document.querySelectorAll("#like");
@@ -136,6 +160,7 @@ function vote(e, value) {
 		{
 			var d = JSON.parse(xhr.responseText);
 			e.target.children[0].innerHTML = d['like_count'];
+			location.reload();
 		}
 		return ;
 	};

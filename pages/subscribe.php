@@ -79,11 +79,11 @@
 				</body>
 			</html>";
 
-			mail($last_user->email, "Camagru - Confirmation de votre compte", $message,
-				"From: contact@camagru.com \n".
-				"Reply-To:" .$last_user->email." \n".
-				"Content-Type: text/html"
-			);
+            mail($last_user->email, "Camagru - Confirmation de votre compte", $message,
+                "From: contact@camagru.com \n".
+                "Reply-To:" .$last_user->email." \n".
+                "Content-Type: text/html"
+            );
 			$_SESSION['success'] = "Votre compte a bien ete cree, veuillez confirmer l'email de validation !";
 			header("Location: ../index.php");
 			die();

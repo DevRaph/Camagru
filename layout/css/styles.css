@@ -380,6 +380,8 @@ table tr td {
 	padding: 20px;
 }
 
+#put_file { display: none !important; }
+
 .put_file form input.input-file {
 	position: relative;
 	display: block;

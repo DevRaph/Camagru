@@ -21,7 +21,7 @@
 		"picture_id" => array($image->id, PDO::PARAM_INT)
 	));
 
-	$comment = $comments->fetch();
+	$comment = $comments->fetchAll();
 
 	if (empty($image)) {
 		header("Location: ../index.php");
@@ -59,34 +59,48 @@
 					<br clear="both">
 				</div>
 				<?php endif; ?>
-				<?php if ($comment != false) : ?>
-					<?php do { ?>
+				<?php if (!empty($comment)) : ?>
+					<?php foreach ($comment as $c) {
+
+                        $like_by_current_user = Helper::getDB()->query("SELECT count(*) as total FROM likes WHERE ref_id = :ref_id AND ref='comments' AND user_id = :user_id", array(
+                            'ref_id' => array($c->id, PDO::PARAM_INT),
+                            'user_id' => array($_SESSION['Auth']['id'], PDO::PARAM_INT)
+                        ))->fetch();
+
+					    ?>
 						<div class="user_comment">
-							<?php if (Auth::isLogged() && ($comment->user_id === $_SESSION['Auth']['id'])): ?>
-								<a class="btn btn-red btn-little" id="<?php echo $comment->comment_id."_".$comment->picture_id ?>" href="#" onclick="delete_comment(<?php echo $comment->comment_id ?>, <?php echo $comment->picture_id ?>)">Supprimer</a>
+							<?php if (Auth::isLogged() && ($c->user_id === $_SESSION['Auth']['id'])): ?>
+								<a class="btn btn-red btn-little" id="<?php echo $c->comment_id."_".$c->picture_id ?>" href="#" onclick="delete_comment(<?php echo $c->comment_id ?>, <?php echo $c->picture_id ?>)">Supprimer</a>
 							<?php endif; ?>
 							<div class="author">
-								<?php echo ucfirst($comment->login) ?>
+								<?php echo ucfirst($c->login) ?>
 								<div class="date">
-									<?php echo $comment->created ?>
+									<?php echo $c->created ?>
 								</div>
 							</div>
 							<div class="comment">
 								<p>
-									<?php echo $comment->comment ?>
+									<?php echo $c->comment ?>
 									<?php if (!Auth::isLogged()): ?>
-									<br><span id="like_count"><?= $comment->like_count ?></span> Like
+									<br><span id="like_count"><?= $c->like_count ?></span> Like
 									<?php endif ?>
 								</p>
 							</div>
-							<?php if (Auth::isLogged()): ?>
-							<div class="like" data-ref="comments" data-ref_id="<?= $comment->comment_id ?>" data-user_id="<?= isset($_SESSION['Auth']['id']) ? $_SESSION['Auth']['id'] : ''; ?>">
-								<button id="like"><span id="like_count"><?= $comment->like_count ?></span> Like</button>
-							</div>
-							<?php endif ?>
+
+                            <?php if (!Auth::isLogged()): ?>
+                                <span id="like_count"><?= $c->like_count ?></span> Like
+                            <?php else: ?>
+                                <?php if ($like_by_current_user->total == 0): ?>
+                                    <div class="like" data-ref="comments" data-ref_id="<?= $c->comment_id ?>" data-user_id="<?= isset($_SESSION['Auth']['id']) ? $_SESSION['Auth']['id'] : ''; ?>">
+                                        <button id="like"><span id="like_count"><?= $c->like_count ?></span> Like</button>
+                                    </div>
+                                <?php else: ?>
+                                    <span id="like_count"><?= $c->like_count ?></span> Like
+                                <?php endif; ?>
+                            <?php endif ?>
 							<br clear="both">
 						</div>
-					<?php }while($comment = $comments->fetch());?>
+					<?php } ?>
 				<?php endif; ?>
 			</div>
 		</div>

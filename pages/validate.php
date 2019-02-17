@@ -1,5 +1,4 @@
 <?php
-
 	require_once "../class/include.php";
 	
 	if (empty($_GET['id']) && empty($_GET['token']) ||

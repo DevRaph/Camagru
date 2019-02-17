@@ -27,3 +27,16 @@ if (view_subscribe) {
 		information.innerHTML = "<div class=\"inscription\"> <div class=\"title\"> <h2>Formulaire d'inscription</h2> </div> <div class=\"form\"> <form action=\"pages/subscribe.php\" method=\"post\"> <div class=\"form-input\"> <div class=\"input-name\">Email</div> <div class=\"input\"> <input id=\"email\" type=\"email\" name=\"email\" required> </div> </div> <div class=\"form-input\"> <div class=\"input-name\">Identifiant</div> <div class=\"input\"> <input id=\"login\" type=\"login\" name=\"login\" required> </div> </div> <div class=\"form-input\"> <div class=\"input-name\">Mot de passe</div> <div class=\"input\"> <input id=\"pass1\" type=\"password\" name=\"pass\" required> </div> </div> <div class=\"form-input\"> <div class=\"input-name\">Confirmez le mot de passe</div> <div class=\"input\"> <input id=\"pass2\" type=\"password\" name=\"pass2\" required> </div> </div> <div class=\"submit\"> <button class=\"btn\" style=\"float:right\" type=\"submit\">Continuer</button> </div> </form> <br clear=\"both\"> </div> </div>";
 	};
 }
+
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			var preupload = document.querySelector("#preupload");
+			preupload.src = e.target.result;
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}

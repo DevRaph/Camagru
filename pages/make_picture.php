@@ -9,8 +9,9 @@
 	}
 
 	$dest = dirname(getcwd().DS);
-	$img_file = $dest.DS."layout".DS."img".DS;
-	$tmp = $img_file.$_SESSION['Auth']['login'].DS."tmp".DS;
+	$screenshot_file = $dest.DS."layout".DS."screenshot".DS;
+	$img_filter_folder = $dest.DS."layout".DS."img".DS;
+	$tmp = $screenshot_file.$_SESSION['Auth']['login'].DS."tmp".DS;
 
 	function resize_filter($filterPath, $imgPath, $percent) {
 		global $tmp;
@@ -41,7 +42,7 @@
 	}
 
 	function image_merge($imgPath, $filterPath, $coord_x, $coord_y) {
-		global $img_file;
+		global $screenshot_file;
 
 		$dest = imagecreatefrompng($imgPath);
 		$src = imagecreatefrompng($filterPath);
@@ -55,11 +56,13 @@
 		$scaleX = $dest_x / 100;
 		$scaleY = $dest_y / 100;
 
-		imagecopymerge($dest, $src, $coord_x * $scaleX, $coord_y * $scaleY, 0, 0, $src_x, $src_y, 100);
-
+		imagealphablending($dest, true);
+        imagesavealpha($dest, true);
+        imagecopymerge($dest, $src, (int)($coord_x * $scaleX), (int)($coord_y * $scaleY), 0, 0, (int)($src_x), (int)($src_y), 100);
+	
 		// Output and free from memory
 		header('Content-Type: image/png');
-		imagepng($dest, $img_file.DS.$_SESSION['Auth']['login'].DS."test.png");
+		imagepng($dest, $screenshot_file.DS.$_SESSION['Auth']['login'].DS."test.png");
 
 		imagedestroy($dest);
 		imagedestroy($src);	
@@ -69,7 +72,7 @@
 	{
 		$background = (isset($_POST['img_background']) ? htmlentities($_POST['img_background']) : NULL);
 		$filter_img = (isset($_POST['filter_img']) ? htmlentities($_POST['filter_img']) : NULL);
-		$filter_img = $img_file.$filter_img;
+		$filter_img = $img_filter_folder.$filter_img;
 		$filter_size = (isset($_POST['filter_size']) ? htmlentities($_POST['filter_size']) : NULL);
 		$coord_x = (isset($_POST['coord_x']) ? htmlentities($_POST['coord_x']) : NULL);
 		$coord_y = (isset($_POST['coord_y']) ? htmlentities($_POST['coord_y']) : NULL);

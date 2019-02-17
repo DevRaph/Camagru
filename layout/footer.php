@@ -1,5 +1,10 @@
 			</div>
 			<aside id="sidebar">
+                <?php
+    //                var_dump(ROOT, 'TOTO');
+    //                echo "<br>";
+    //                var_dump($_SERVER);
+                ?>
 				<?php if (!Auth::isLogged()): ?>
 				<div class="block">
 
@@ -34,32 +39,33 @@
 					</div>
 				</div>
 				<?php endif; ?>
-				<?php if (Auth::isLogged()): ?>
+				<?php if (Auth::isLogged() && ($_SERVER['PHP_SELF'] != ROOT.'/profil.php' && $_SERVER['PHP_SELF'] != ROOT.'/gallery.php' )):
+                    // rajouter le fait d'aumenter la taile de la galerie quand il y  a plus l'aside?>
 				<div class="block">
 					<div id='snapshot' class="snapshot">
-						<h2>Your Image</h2>
+						<h2>Your Images</h2>
 						<?php 
 							$image_user = Helper::getDB()->query("SELECT id, title, file FROM pictures WHERE user_id=:user_id ORDER BY created DESC;", array(
 								'user_id' => array($_SESSION['Auth']['id'], PDO::PARAM_INT)
 							));
-							$img = $image_user->fetch();
-							if ($img != false) {
-								do {
-						?>
-								<div class="pictures">
-									<?php if (strstr(LAYOUT, "pages")): ?>
-									<a href="<?= ROOT ?>/comments.php?id=<?php echo $img->id ?>">
-									<?php else: ?>
-									<a href="<?= ROOT ?>/pages/comments.php?id=<?php echo ROOT.$img->id ?>">
-									<?php endif; ?>
-									<img class="pictures" width="100%" src="<?php echo LAYOUT_PAGES.$img->file ?>" alt="<?php echo $img->title ?>" />
-									</a>
-									<button id="delete_img" onclick="delete_img(<?php echo $img->id ?>)">x</button>
-								</div>
+							$image_user = $image_user->fetchAll();
+							// afficher que si c'est la page montage.
+							?>
+
 						<?php
-								} while ($img = $image_user->fetch());
-							}
-						?>
+                            foreach ($image_user as $img) : ?>
+							<div class="pictures" >
+<!--                                style="width:50%" -->
+								<?php if (strstr(LAYOUT, "pages")): ?>
+								<a href="<?= ROOT ?>/comments.php?id=<?= $img->id ?>">
+								<?php else: ?>
+								<a href="<?= ROOT ?>/pages/comments.php?id=<?= $img->id ?>">
+								<?php endif; ?>
+								<img class="pictures" src="<?= LAYOUT_PAGES.$img->file ?>" alt="<?php echo $img->title ?>" />
+								</a>
+								<button id="delete_img" onclick="delete_img(<?= $img->id ?>)">x</button>
+							</div>
+					<?php endforeach; ?>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -67,7 +73,7 @@
 		</div>
 		<div class="clr"></div>
 		<footer>
-			<p>Copyright &copy; 2017 PHRM</p>
+			<p>Copyright &copy; 2019 CAMAGRU</p>
 		</footer>
 	</div>
 	<?php if (strstr($_SERVER['SCRIPT_FILENAME'], "pages")): ?>

@@ -8,9 +8,9 @@
 	}
 
 	$dest = dirname(getcwd().DS);
-	$img_file = $dest.DS."layout".DS."img".DS;
+	$img_file = $dest.DS."layout".DS."screenshot".DS;
 	$user_folder = $img_file.$_SESSION['Auth']['login'].DS;
-	$file = "http://".$_SERVER['HTTP_HOST'].LAYOUT_PAGES."/img/".$_SESSION['Auth']['login']."/test.png";
+	$file = "http://".$_SERVER['HTTP_HOST'].LAYOUT_PAGES."/screenshot/".$_SESSION['Auth']['login']."/test.png";
 
 	$file_check = $user_folder."test.png";
 	if (!Helper::fileExists($file_check)) {
@@ -48,7 +48,7 @@
 				'user_id' => array($_SESSION['Auth']['id'], PDO::PARAM_INT),
 				'title' => array($_POST['title'], PDO::PARAM_STR),
 				'description' => array($description, PDO::PARAM_LOB),
-				'file' => array("/img/".$_SESSION['Auth']['login']."/".$title.".png", PDO::PARAM_STR),
+				'file' => array("/screenshot/".$_SESSION['Auth']['login']."/".$title.".png", PDO::PARAM_STR),
 				'created' => array(date("Y-m-d H:i:s"), PDO::PARAM_STR)
 			));
 			header("Location: index.php");

@@ -6,7 +6,13 @@
 		{
 			if (isset($_SESSION['Auth']) && isset($_SESSION['Auth']['login']))
 				return (true);
-			else
-				return (false);
+            return (false);
 		}
+
+		static function isNotif()
+        {
+            if (isset($_SESSION['Auth']) && isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['notif']) && $_SESSION['Auth']['notif'] == 1)
+                return (true);
+            return (false);
+        }
 	}

@@ -17,11 +17,6 @@
 		))->fetch();
 	}
 
-	if (count($user_find) <= 0) {
-		header("Location: index.php");
-		die();
-	}
-
 	if (!empty($_POST) && !empty($_POST['pass']) && !empty($_POST['pass2'])) {
 		$pass = (isset($_POST['pass']) ? htmlentities($_POST['pass']) : NULL);
 		$pass2 = (isset($_POST['pass2']) ? htmlentities($_POST['pass2']) : NULL);
@@ -34,7 +29,7 @@
         }
 
 		if (Auth::isLogged()) {
-			$user = Helper::getDB()->query("SELECT id, token FROM users WHERE id=:id", array(
+			$user = Helper::getDB()->query("SELECT id FROM users WHERE id=:id", array(
 				"id" => array($_POST['id'], PDO::PARAM_INT)
 			))->fetch();
 		} else {
@@ -42,14 +37,10 @@
 				"id" => array($_POST['id'], PDO::PARAM_INT),
 				"token" => array($_POST['token'], PDO::PARAM_STR)
 			))->fetch();
-			Helper::getDB()->query("UPDATE users SET token=NULL WHERE id=:id AND token=:token;", array(
-				'id' => array($_POST['id'], PDO::PARAM_INT),
-				'token' => array($_POST['token'], PDO::PARAM_STR)
-			));
 		}
 
-		if (count($user) > 0) {
-			if ($pass === $pass2) {
+		if (!empty($user)) {
+			if ($pass == $pass2) {
 				$password =  md5(sha1($pass) . md5($pass));
 				if (isset($user->token) AND $user->token != NULL) {
 					$user = Helper::getDB()->query("UPDATE users SET password=:password, token=NULL WHERE id=:id AND token=:token", array(
@@ -72,6 +63,11 @@
 		}
 	}
 
+	if (empty($user_find)) {
+		header("Location: index.php");
+		die();
+	}
+
 	require_once "../layout/header.php";
 ?>
 <article>
@@ -79,9 +75,11 @@
 		<div class="change_password">
 			<h1>Changer votre mot de passe</h1>
 			<div class="form">
-				<form action="<?= ROOT ?>/change_password.php" method="post">
+				<form action="<?= ROOT ?>/change_password.php" method="POST">
 					<input type="hidden" name="id" value="<?php echo (isset($user_find->id) ? $user_find->id : $_GET['id']); ?>">
+					<?php if (!Auth::isLogged()) : ?>
 					<input type="hidden" name="token" value="<?php echo (isset($user_find->token) ? $user_find->token : $_GET['token']); ?>">
+					<?php endif; ?>
 					<div class="form-input">
 						<div class="input-name">
 							Nouveau mot de passe

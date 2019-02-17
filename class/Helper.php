@@ -8,7 +8,7 @@
 		{
 			if (!self::$db)
 			{
-				self::$db = new Bdd("mysql:host=localhost;charset=UTF8;", 'camagru', DB_USER, DB_PASS, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ));
+				self::$db = new Bdd("mysql:host=localhost;charset=UTF8;", 'camagru', 'root', 'rootroot', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ));
 			}
 			return self::$db;
 		}
@@ -35,8 +35,10 @@
 		static function success()
 		{
 			if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-				echo "<div id='message' class='success'>";
-				echo $_SESSION['success'];
+                    echo "<div id='message' class='success'>";
+				echo "<ul>";
+				echo "<li>" .  $_SESSION['success'] . "</li>";
+				echo "</ul>";
 				echo "</div>";
 				unset($_SESSION['success']);
 			}
